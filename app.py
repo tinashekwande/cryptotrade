@@ -254,6 +254,4 @@ def trade():
 
 
 if __name__=="__main__":
-    threading.Thread(target=start_websocket).start()
-    app.live_price = None
     app.run()
