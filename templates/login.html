@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block main %}
+    <div class="container form-page">
+        <form class="container" action="/login" method="post">
+            <input class="input" type="text" name="username" placeholder="Enter Your Username">
+                <li class="error">{{ error1 }}</li>
+            <input class="input" type="password" name="password" placeholder="Enter Your Password">
+                <li class="error">{{ error2 }}</li>
+            <button type="submit">Login</button>
+                <li class="error">{{ error3 }}</li>
+
+        </form>
+    </div>
+{% endblock %}
+

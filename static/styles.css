@@ -1,0 +1,479 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");:root{--header-height: 50px;--nav-width: 68px;--first-color: #4723D9;--first-color-light: #AFA5D9;--white-color: #fff;--body-font: 'Nunito', sans-serif;--normal-font-size: 1rem;--z-fixed: 100}*,::before,::after{box-sizing: border-box}body{position: relative;margin: var(--header-height) 0 0 0;padding: 0 1rem;font-family: var(--body-font); color: var(blue);font-size: var(--normal-font-size);transition: .5s}a{text-decoration: none}.header{width: 100%;height: var(--header-height);position: fixed;top: 0;left: 10;display: flex;align-items: center;justify-content: space-between;padding: 0 1rem;background-color: var(--white-color);z-index: var(--z-fixed);transition: .5s}.header_toggle{color: var(--first-color);font-size: 1.5rem;cursor: pointer}.header_img{width: 35px;height: 35px;display: flex;justify-content: center;border-radius: 50%;overflow: hidden}.header_img img{width: 40px}.l-navbar{position: fixed;top: 0;left: -30%;width: var(--nav-width);height: 100vh;background-color: var(--first-color);padding: .5rem 1rem 0 0;transition: .5s;z-index: var(--z-fixed)}.nav{height: 100%;display: flex;flex-direction: column;justify-content: space-between;overflow: hidden}.nav_logo, .nav_link{display: grid;grid-template-columns: max-content max-content;align-items: center;column-gap: 1rem;padding: .5rem 0 .5rem 1.5rem}.nav_logo{margin-bottom: 2rem}.nav_logo-icon{font-size: 1.25rem;color: var(--white-color)}.nav_logo-name{color: var(--white-color);font-weight: 700}.nav_link{position: relative;color: var(--first-color-light);margin-bottom: 1.5rem;transition: .3s}.nav_link:hover{color: var(--white-color)}.nav_icon{font-size: 1.25rem}.show{left: 0}.body-pd{padding-left: calc(var(--nav-width) + 1rem)}.active{color: var(--white-color)}.active::before{content: '';position: absolute;left: 0;width: 2px;height: 32px;background-color: var(--white-color)}.height-100{height:100vh}@media screen and (min-width: 768px){body{margin: calc(var(--header-height) + 1rem) 0 0 0;padding-left: calc(var(--nav-width) + 2rem)}.header{height: calc(var(--header-height) + 1rem);padding: 0 2rem 0 calc(var(--nav-width) + 2rem)}.header_img{width: 40px;height: 40px}.header_img img{width: 45px}.l-navbar{left: 0;padding: 1rem 1rem 0 0}.show{width: calc(var(--nav-width) + 156px)}.body-pd{padding-left: calc(var(--nav-width) + 188px)}}
+
+#nav {
+  display: flex;
+  flex-direction: row;
+}
+body {
+  height: auto;
+  width: 1338px;
+  display: flex;
+  gap: 30px;
+}
+h1 {
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+#home-search {
+  height: 50px;
+  font-size: 14pt;
+  width: 450px;
+  border-radius: 10px;
+  background-color: #ddd;
+}
+
+/* Size for brand */
+nav .navbar-brand
+{
+  position: fixed;
+  font-size: xx-large;
+  font-weight: bold;
+}
+main {
+  height: 720px;
+  width: 1338px;
+}
+#chart {
+  height: 730px;
+  width: 1348px;
+  border: none;
+  border-color: #555;
+  border-radius: 10px;
+}
+
+/* Colors for brand */
+nav .navbar-brand .blue
+{
+  color: #537fbe;
+}
+nav .navbar-brand .red
+{
+  color: #ea433b;
+}
+nav .navbar-brand .yellow
+{
+  color: #f5b82e;
+}
+nav .navbar-brand .green
+{
+  color: #2e944b;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+#container {
+  width: 100%;
+  length: 100%
+}
+.navbar a{
+  margin-right: 90px;
+}
+.navbar {
+  background-color: transparent;
+}
+.nav-item {
+  font-weight: bold;
+  font-size: 11pt;
+  padding: 10px;
+  color: black;
+  text-decoration: none;
+}
+.widgets {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  background-color: white;;
+  width: 1338;
+  padding: 20px;
+  height: 50%;
+  z-index: 1;
+}
+
+form {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+table {
+  overflow-x: auto;  /* Enable horizontal scrolling for small screens */
+  background-color: transparent;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+table th,
+table td {
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+tbody tr:nth-of-type(odd) {
+  background-color: rgb(179, 208, 255, 0.3)
+}
+
+input {
+  height: 40px;
+  padding: 10px;
+  font-weight: bold;
+  background-color: #fff;
+  border: none;
+}
+
+.input {
+  width: 250px;
+  text-align: center;
+  background-color: #eee;
+  border-radius: 10px;
+}
+
+button {
+
+  width: 100px;
+  height: 38px;
+  border: none;
+  background-color: #B3E0FF;
+  color: auto;
+  font-size: 14px;
+  border-radius: 15px;
+
+
+}
+#cash {
+  width: 20%;
+}
+thead {
+  background-color: #999;
+  font-weight: bold;
+  font-size: 12pt;
+}
+
+#cash thead {
+  background-color: #bbb;
+}
+tbody {
+  font-weight: bold;
+}
+
+.form-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: auto;
+  width: 370px;
+  padding: 20px;
+  border: none;
+  border-radius: 20px;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;  /* Enable horizontal scrolling for small screens */
+}
+#sell.btn {
+  background-color: red;
+  border: none;
+}
+
+#myDropdown {
+  height: 30px;
+  width: 80px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5)
+}
+
+#fullscreen {
+  height: 30px;
+  width: 80px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5)
+}
+
+#actions {
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+
+}
+#dropdown {
+  padding: 10px;
+}
+#buy {
+  color: black;
+  background-color: #99C2FF;
+  box-shadow: 0 2px 4px rgba(0, 0, 255, 0.3);
+  z-index: 5;
+}
+#sell {
+  color: black;
+  background-color: #FF9999;
+  box-shadow: 0 2px 4px rgba(255, 0, 0, 0.3);
+  z-index: 5;
+}
+.options {
+  position: absolute;
+  background-color: transparent; /* Red background color for demonstration */
+  color: #000; /* White text color for demonstration */
+  padding: 5px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.outer-div {
+  position: relative;
+  width: 300px;
+  height: 200px;
+}
+.buy-sell {
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  z-index: 4;
+}
+.icon {
+  length: 32px;
+  width: 32px;
+  border-radius: 10px;
+}
+.table-button {
+  background-color: transparent;
+  border: none;
+  font-weight: bold;
+}
+.chart {
+  z-index: 1;
+}
+
+.search-box {
+  border: none;
+  border-bottom: 2px solid #000; /* Change the color as needed */
+  outline: none; /* Removes the default focus outline */
+  padding: 5px 0; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  width: 200px; /* Adjust width as needed */
+}
+
+.search-box:focus {
+  border-bottom-color: #00f; /* Change the color when focused */
+  transition: border-bottom-color 0.3s ease-in-out; /* Add smooth transition effect */
+}
+.search-container {
+  position: relative;
+}
+.instruments {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bi-speedometer2 {
+  color: black;
+}
+
+.card {
+  height: auto;
+  width: auto;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4)
+}
+
+@media screen and (max-width: 768px) {
+  .card {
+    width: 100%; /* Make cards take full width on smaller screens */
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .card {
+    flex: 1; /* Make cards equally occupy the available space in a row */
+  }
+}
+
+.widget-image {
+  height: 50%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3)
+}
+
+#search-container {
+  height: 150px;
+  width: 450px;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 14pt;
+  background-color: transparent;
+  border: none;
+  text-align: left;
+  z-index: 2;
+  overflow: auto;
+}
+
+#search {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.search-items {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.search-container::-webkit-scrollbar-thumb {
+  background-color: #ff0000; /* Set the color of the scrollbar thumb (scroll controller) */
+  border-radius: 4px; /* Optional: Add some border-radius to style the thumb shape */
+}
+
+.scrollable-container::-webkit-scrollbar-thumb:hover {
+  background-color: #ff5500; /* Set the color of the scrollbar thumb when hovered */
+}
+
+.item1 { grid-area: header; }
+.item2 { grid-area: menu; }
+.item3 { grid-area: main; }
+.item4 { grid-area: right; }
+.item5 { grid-area: footer; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'menu header header header header header'
+    'menu main main main right right'
+    'menu footer footer footer footer footer';
+  gap: 20px;
+  background-color: #fff;
+  position: relative;
+  height: 100%;
+}
+
+
+.item1 {
+  height: 50px;
+  background-color: #efefef;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.item2 {
+  height: 730px;
+  width: 250px;
+  background-color: #efefef;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 30px;
+  padding-top: 10px;
+  position: relative;
+
+}
+.item3 {
+  height: 400px;
+  background-color: #efefef;
+  border-radius: 10px;
+}
+
+.item4 {
+  height: 400px;
+  background-color: #e4e4e4;
+  border-radius: 10px;
+}
+
+.item5 {
+  height: 220px;
+  background-color: #e4e4e4;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+.trans-page {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+a {
+  display: block;
+}
+
+.error {
+  color: red;
+  text-align: left;
+  height: 1px;
+}
+li {
+  list-style-type: none;
+}
+#chart-search {
+  display: none;
+  position: fixed;
+  z-index: 9999; /* Ensure the modal is above all other content */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+.search-content {
+  background-color: #fff;
+  width: 80%;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 5px;
+}
+#buy--sell {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+#hidden-symbol, #hidden-symbol2 {
+  display: none;
+}
+.table-container {
+  padding: 10px;
+  border radius: 10px;
+}
+.tab-content {
+  display: flex;
+  flex-direction: row;
+}
+.nav-pills {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+}
+br {
+  height: 3px;
+  color: black;
+  padding: 10px;
+}
+
+#hidden-cell {
+  display: none;
+}
+
+#symbol-heading {
+  text-align: left;
+  font-weight: bold;
+}

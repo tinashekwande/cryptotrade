@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block main %}
+
+    <div class="form-page container">
+        <form class="container" action="/register" method="post">
+            <input class="input" type="text" name="username" placeholder="Type your username">
+            <li class="error">{{ error1 }}</li>
+            <input class="input" type="text" name="password" placeholder="Enter Your password">
+            <li class="error">{{ error2 }}</li>
+            <input class="input" type="text" name="confirmation" placeholder="Retype your password">
+            <li class="error">{{ error3 }}</li>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+{% endblock %}

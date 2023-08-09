@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block main %}
+<div class="container form-page trans-page">
+    <h1 id="symbol-heading"></h1>
+    <form class="container" action="/buy" method="post">
+        <input id="hidden-symbol" type="text" name="symbol">
+        <input id="hidden-symbol2" type="text" name="name">
+        <input id="price" class="input" type="text" name="price" placeholder="Price">
+        <li class="error">{{ error1 }}</li>
+        <input class="input" type="text" name="coins" placeholder="Amount">
+        <li class="error">{{ error }}</li>
+        <div class="buy-sell">
+            <input class="input" type="text" name="stop-loss" placeholder="Stop Loss">
+            <input class="input" type="text" name="take-profit" placeholder="Take Profit">
+        </div>
+        <div id="buy--sell">
+            <button id="buy" type="submit">Buy</button>
+            <button id="sell" type="submit">Sell</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

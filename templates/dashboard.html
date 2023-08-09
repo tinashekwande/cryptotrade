@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block main %}
+<div class="grid-container">
+    <div class="item1">
+                <li class="nav-item dropdown">
+                  <a>
+                    <img
+                      src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
+                      class="rounded-circle"
+                      height="32"
+                      alt="Portrait of a Woman"
+                      loading="lazy"
+                    />
+                  </a>
+                </li>
+        </div>
+        <div class="item2">
+          <img id="mylogo" class="image-transition" src="/static/logo.png" alt="My logo" height="50" width="130">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" id="home" href="/logout">Logout</a>
+          </li>
+        </div>
+        <div class="item3 chart">
+
+        </div>
+        <div class="item4">
+          <h3>Main</h3>
+          <div class="container">
+
+        </div>
+
+        </div>
+        <div class="item5">
+          <h3><strong>History</strong></h3>
+          <table class="table-container">
+            <thead>
+                <tr>
+                    <td>Symbol</td>
+                    <td>Name</td>
+                    <td>Coins</td>
+                    <td>Price</td>
+                    <td>Transaction</td>
+                    <td>Balance</td>
+                    <td>Date</td>
+                    <td>Time</td>
+                    <td>
+                        <form action="/clear" method="post">
+                            <button type="submit">Clear history</button>
+                        </form>
+                    </td>
+                </tr>
+            </thead>
+            <tbody id="history-body">
+                {% for row in history %}
+                <tr>
+                    <td>{{ row['symbol'] }}</td>
+                    <td>{{ row['name'] }}</td>
+                    <td>{{ row['coins'] }}</td>
+                    <td>{{ row['price'] }}</td>
+                    <td>{{ row['order_type'] }}</td>
+                    <td>{{ row['balance'] }}</td>
+                    <td>{{ row['date'] }}</td>
+                    <td>{{ row['time'] }}</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+      </div>
+{% endblock %}

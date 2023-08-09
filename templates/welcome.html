@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block main %}
+<div class="container">
+  <div>
+      <h1>Its Now Or Never</h1>
+      <h1>Trade with Confidence. This Platform, Your Prosperity</h1>
+      <h3>This is a personal Project By Tinashe Kwande</h3>
+  </div>
+  <div class="search-items">
+      <div id="search">
+          <input id="home-search" type="search" placeholder="Search Markets" autofocus>
+          <div id="search-container"></div>
+      </div>
+  </div>
+</div>
+<div class="widgets flex-box container-fluid">
+  <div class="card flex-box">
+    <img class="widget-image" src="/static/bitcoin2.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Bitcoin</h5>
+      <p class="card-text">Bitcoin, the first-ever cryptocurrency, introduced in 2009 by an anonymous person or group known as Satoshi Nakamoto. It operates on a decentralized network, using blockchain technology to enable secure peer-to-peer transactions without the need for intermediaries like banks.</p>
+      <a href="/chart?symbol=BTC&name=Bitcoin" class="btn btn-primary">View chart</a>
+    </div>
+  </div>
+
+  <div class="card fex-box">
+    <img class="widget-image" src="/static/ethereum2.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Ethereum</h5>
+      <p class="card-text">Ethereum, launched in 2015 by Vitalik Buterin, is more than just a cryptocurrency. It's a decentralized platform that allows developers to create and deploy smart contracts and decentralized applications (DApps). Ether (ETH) is the native cryptocurrency of the Ethereum network.
+      </p>
+      <a href="/chart?symbol=ETH&name=Ethereum" class="btn btn-primary">View chart</a>
+    </div>
+  </div>
+
+  <div class="card flex-box">
+    <img class="widget-image" src="/static/litecoin2.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Litecoin</h5>
+      <p class="card-text">Litecoin, created by Charlie Lee in 2011, is often referred to as the "silver to Bitcoin's gold." It is a peer-to-peer cryptocurrency that shares many similarities with Bitcoin but offers faster transaction confirmations and a different mining algorithm (Scrypt).</p>
+      <a href="/chart?symbol=LTC&name=Litecoin" class="btn btn-primary">View chart</a>
+    </div>
+  </div>
+
+  <div class="card flex-box">
+    <img class="widget-image" src="/static/dodge.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Dodge</h5>
+      <p class="card-text">Dogecoin, introduced in 2013 by Billy Markus and Jackson Palmer, started as a joke based on the "Doge" meme. However, it quickly gained a passionate following and became a legitimate cryptocurrency with a strong community.</p>
+      <a href="/chart?symbol=DOGE&name=Dogecoin" class="btn btn-primary">View chart</a>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
+
+
