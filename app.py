@@ -1,6 +1,8 @@
 import os
 
-from cs50 import SQL
+from sqlalchemy import create_engine, select
+from sqlalchemy import Table, Column, MetaData
+from sqlalchemy.sql import text
 from flask import Flask, render_template, session, request, jsonify, redirect
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -13,7 +15,9 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-db = SQL("sqlite:///users.db")
+engine = create_engine("sqlite:///users.db")
+
+db = engine.connect()
 
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -55,7 +59,7 @@ def index():
 def register():
     """Register user"""
     if request.method == "POST":
-        #extracting the details entered on the form by the user
+        # Extracting the details entered on the form by the user
         username = request.form.get("username")
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
@@ -64,42 +68,51 @@ def register():
         error3 = "* passwords do not match"
         starting_balance = 10000
 
-        #hashing the password so that it is safe in the database
-        hash = generate_password_hash(password)
+        # Hashing the password so that it is safe in the database
+        hashed_password = generate_password_hash(password)
 
-
-        #Displaying an error to the user If they dont provide a username
+        # Displaying an error to the user if they don't provide a username
         if not username:
             return render_template("register.html", error1=error1)
 
-        #Dislaying an error to the user if they dont provide a password
+        # Displaying an error to the user if they don't provide a password
         elif not password:
             return render_template("register.html", error2=error2)
 
-        #Displaying an error to the user if they provide a password with less than 8 characters
+        # Displaying an error to the user if they provide a password with less than 8 characters
         if len(password) < 8:
             error = "* password must be more than 8 characters"
             return render_template("register.html", error2=error)
 
-        #Diaplaying an error to the user if they retype a password that doesnt match the password they initially provided
+        # Displaying an error to the user if they retype a password that doesn't match the password they initially provided
         if confirmation != password:
             return render_template("register.html", error3=error3)
 
-        #Extracting usernames from the database
-        usernames = [user['username'] for user in db.execute("SELECT username FROM users;")]
-        #Displaying an error if the user provides a username that already exists in the database
+        # Extracting usernames from the database
+        usernames = [user[0] for user in db.execute(select([text("username")]).select_from(text("users")))]
+
+        # Displaying an error if the user provides a username that already exists in the database
         if username in usernames:
             error = "* username already taken"
             return render_template("register.html", error1=error)
 
-        #Updating the database with the new users' infomation if everything is ok
-        db.execute("INSERT INTO users (username, password) values(?, ?)", username, hash)
-        rows = db.execute("SELECT * FROM users WHERE username = ?", username)
-        id = rows[0]["id"]
-        session["user_id"] = id
-        db.execute("INSERT INTO accounts (balance, user_id) values(?, ?)", starting_balance, id)
+        # Updating the database with the new user's information if everything is ok
+        insert_user_details = text("INSERT INTO users (username, password) VALUES (:username, :hashed_password)")
+        db.execute(insert_user_details, username=username, hashed_password=hashed_password)
 
-        #redirecting the user to the home page after submission
+        # Get the user's ID
+        get_id = text("SELECT id FROM users WHERE username = :username")
+        result = db.execute(get_id, username=username)
+        id = result.fetchone()[0]
+
+        # Initialize balance for the user
+        initialize_balance = text("INSERT INTO accounts (balance, user_id) VALUES (:starting_balance, :id)")
+        db.execute(initialize_balance, starting_balance=starting_balance, id=id)
+
+        # Close the connection
+        db.close()
+
+        # Redirect the user to the home page after submission
         return redirect("/")
 
     else:
@@ -132,7 +145,8 @@ def login():
             return render_template("login.html", error2=error2, error1=error1)
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+        rows = db.execute("SELECT * FROM users WHERE username = :username", username=username).fetchall()
+        
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["password"], request.form.get("password")):
@@ -185,7 +199,7 @@ def dashboard():
     #setting dash = true to filter some template inheritance when in the dashboard route
     dash = True
     user_id = session.get("user_id")
-    history = db.execute("SELECT * FROM history WHERE user_id = ?", user_id)
+    history = db.execute("SELECT * FROM history WHERE user_id = :user_id", user_id=user_id).fetchall()
     return render_template("dashboard.html", dashboard=dash, history=history)
 
 
@@ -215,27 +229,27 @@ def buy():
 
         #Calcuating The balance and gain associated with the buying of the symbol
         symbol = request.form.get("symbol")
-        symbols = [row['symbol'] for row in db.execute("SELECT symbol FROM transactions WHERE user_id = ?", user_id)]
+        symbols = [row['symbol'] for row in db.execute("SELECT symbol FROM transactions WHERE user_id = :user_id", user_id=user_id).fetchall()]
         cost = coins * price
-        balance = [row['balance'] for row in db.execute("SELECT balance FROM accounts WHERE user_id = ?", user_id)]
+        balance = [row['balance'] for row in db.execute("SELECT balance FROM accounts WHERE user_id = :user_id", user_id=user_id).fetchall()]
 
         #Getting the current date and time
-        date = "2023-08-08"
+        date = datetime.now().date()
         time = datetime.now().time()
 
 
         #updating the transaction information into the database, thats if the symbol already exists in the database
         if symbol in symbols:
-            db.execute("UPDATE transactions SET coins = coins + ?", coins)
-            db.execute("UPDATE ACCOUNTS SET balance = balance - ?", cost)
+            db.execute("UPDATE transactions SET coins = coins + :coins", coins=coins)
+            db.execute("UPDATE ACCOUNTS SET balance = balance - :cost", cost=cost)
 
         #Inserting the transaction if the symbol is not already in the database
         else:
-            db.execute("INSERT INTO transactions (name, symbol, price, coins, cost, user_id) values(?,?,?,?,?,?)", name, symbol, price, coins, cost, user_id)
+            db.execute("INSERT INTO transactions (name, symbol, price, coins, cost, user_id) values(:name, :symbol, :price, :coins, :cost, :user_id)", name=name, symbol=symbol, price=price, coins=coins, cost=cost, user_id=user_id)
 
 
         balance = balance[0] - cost
-        db.execute("INSERT INTO history (name, symbol, price, coins, cost, balance, user_id, date, time) values(?,?,?,?,?,?,?,?,?)", name, symbol, price, coins, cost, balance, user_id, date, time)
+        db.execute("INSERT INTO history (name, symbol, price, coins, cost, balance, user_id, date, time) values(:name, :symbol, :price, :coins, :cost, :balance, :user_id, :date, :time)", name=name, symbol=symbol, price=price, coins=coins, cost=cost, balance=balance, user_id=user_id, date=date, time=time)
 
         return redirect(f"/chart?name={name}&symbol={symbol}")
 
