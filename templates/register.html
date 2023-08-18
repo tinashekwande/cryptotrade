@@ -3,6 +3,10 @@
 
     <div class="form-page container">
         <form class="container" action="/register" method="post">
+            <input class="input" type="text" name="firstname" placeholder="Type your firstname">
+            <li class="error">{{ first_name_error }}</li>
+            <input class="input" type="text" name="lastname" placeholder="Type your lastname">
+            <li class="error">{{ last_name_error }}</li>
             <input class="input" type="text" name="username" placeholder="Type your username">
             <li class="error">{{ error1 }}</li>
             <input class="input" type="text" name="password" placeholder="Enter Your password">

@@ -1,5 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");:root{--header-height: 50px;--nav-width: 68px;--first-color: #4723D9;--first-color-light: #AFA5D9;--white-color: #fff;--body-font: 'Nunito', sans-serif;--normal-font-size: 1rem;--z-fixed: 100}*,::before,::after{box-sizing: border-box}body{position: relative;margin: var(--header-height) 0 0 0;padding: 0 1rem;font-family: var(--body-font); color: var(blue);font-size: var(--normal-font-size);transition: .5s}a{text-decoration: none}.header{width: 100%;height: var(--header-height);position: fixed;top: 0;left: 10;display: flex;align-items: center;justify-content: space-between;padding: 0 1rem;background-color: var(--white-color);z-index: var(--z-fixed);transition: .5s}.header_toggle{color: var(--first-color);font-size: 1.5rem;cursor: pointer}.header_img{width: 35px;height: 35px;display: flex;justify-content: center;border-radius: 50%;overflow: hidden}.header_img img{width: 40px}.l-navbar{position: fixed;top: 0;left: -30%;width: var(--nav-width);height: 100vh;background-color: var(--first-color);padding: .5rem 1rem 0 0;transition: .5s;z-index: var(--z-fixed)}.nav{height: 100%;display: flex;flex-direction: column;justify-content: space-between;overflow: hidden}.nav_logo, .nav_link{display: grid;grid-template-columns: max-content max-content;align-items: center;column-gap: 1rem;padding: .5rem 0 .5rem 1.5rem}.nav_logo{margin-bottom: 2rem}.nav_logo-icon{font-size: 1.25rem;color: var(--white-color)}.nav_logo-name{color: var(--white-color);font-weight: 700}.nav_link{position: relative;color: var(--first-color-light);margin-bottom: 1.5rem;transition: .3s}.nav_link:hover{color: var(--white-color)}.nav_icon{font-size: 1.25rem}.show{left: 0}.body-pd{padding-left: calc(var(--nav-width) + 1rem)}.active{color: var(--white-color)}.active::before{content: '';position: absolute;left: 0;width: 2px;height: 32px;background-color: var(--white-color)}.height-100{height:100vh}@media screen and (min-width: 768px){body{margin: calc(var(--header-height) + 1rem) 0 0 0;padding-left: calc(var(--nav-width) + 2rem)}.header{height: calc(var(--header-height) + 1rem);padding: 0 2rem 0 calc(var(--nav-width) + 2rem)}.header_img{width: 40px;height: 40px}.header_img img{width: 45px}.l-navbar{left: 0;padding: 1rem 1rem 0 0}.show{width: calc(var(--nav-width) + 156px)}.body-pd{padding-left: calc(var(--nav-width) + 188px)}}
 
+@font-face {
+  font-family: 'Helvetica Neue';
+  src: url('/fonts/HelveticaNeueLTW0697BlkCnObl.otf') format('opentype'),
+       url('/fonts/HelveticaNeueLTW0697BlkCnObl.ttf') format('truetype');
+  /* Add more font variations and paths if necessary */
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
 #nav {
   display: flex;
   flex-direction: row;
@@ -10,6 +21,14 @@ body {
   display: flex;
   gap: 30px;
 }
+
+@media (max-width: 800px) {
+  .text {
+    font-size: 70%;
+  }
+  
+}
+
 h1 {
   font-family: sans-serif;
   font-weight: bold;
@@ -19,8 +38,20 @@ h1 {
   height: 50px;
   font-size: 14pt;
   width: 450px;
+  border: none;
   border-radius: 10px;
   background-color: #ddd;
+}
+
+#home-search:focus {
+  outline: none;
+  
+}
+
+@media (max-width: 768px) {
+  #home-search {
+    width: 300px;
+  }
 }
 
 /* Size for brand */
@@ -35,11 +66,19 @@ main {
   width: 1338px;
 }
 #chart {
-  height: 730px;
-  width: 1348px;
+  height: 100%;
+  width: 100%;
   border: none;
   border-color: #555;
   border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  #chart-container {
+    /* Define smaller dimensions for mobile view */
+    width: 100%;
+    height: 300px; /* Adjust the height as needed */
+  }
 }
 
 /* Colors for brand */
@@ -82,17 +121,36 @@ nav .navbar-brand .green
   color: black;
   text-decoration: none;
 }
+
+.card {
+  height: auto;
+  width: 300px;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4)
+}
+
+
 .widgets {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
   gap: 10px;
-  background-color: white;;
+  background-color: white;
   width: 1338;
   padding: 20px;
-  height: 50%;
+  height: auto;
   z-index: 1;
+}
+
+@media (max-width: 800px) {
+
+  .widgets {
+    display: flex;
+    flex-direction: column;
+    
+  }
+
 }
 
 form {
@@ -103,22 +161,7 @@ form {
 }
 
 
-table {
-  overflow-x: auto;  /* Enable horizontal scrolling for small screens */
-  background-color: transparent;
-  margin-bottom: 1rem;
-  width: 100%;
-}
 
-table th,
-table td {
-  padding: 0.75rem;
-  vertical-align: middle;
-}
-
-tbody tr:nth-of-type(odd) {
-  background-color: rgb(179, 208, 255, 0.3)
-}
 
 input {
   height: 40px;
@@ -151,7 +194,7 @@ button {
   width: 20%;
 }
 thead {
-  background-color: #999;
+  background-color: #fff;
   font-weight: bold;
   font-size: 12pt;
 }
@@ -165,7 +208,7 @@ tbody {
 
 .form-page {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   height: auto;
   width: 370px;
@@ -282,30 +325,20 @@ tbody {
 }
 
 .card {
-  height: auto;
-  width: auto;
+  height: 200px;
+  width: 300px;
   border: none;
+  grid-area: main;
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4)
 }
 
-@media screen and (max-width: 768px) {
-  .card {
-    width: 100%; /* Make cards take full width on smaller screens */
-  }
-}
-
-@media screen and (min-width: 769px) {
-  .card {
-    flex: 1; /* Make cards equally occupy the available space in a row */
-  }
-}
 
 .widget-image {
-  height: 50%;
+  height: 50px;
+  width: 50px;
   border-radius: 10px;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3)
 }
 
 #search-container {
@@ -366,41 +399,48 @@ tbody {
 
 .item1 {
   height: 50px;
-  background-color: #efefef;
+  background-color: #fff;
   border-radius: 10px;
   display: flex;
   flex-direction: row;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .item2 {
-  height: 730px;
-  width: 250px;
-  background-color: #efefef;
+  height: 720px;
+  width: 300px;
+  background-color: #fff;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  padding-left: 30px;
+  justify-content: left;
+  text-align: center;
   padding-top: 10px;
-  position: relative;
+  padding-bottom: 50px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 
 }
 .item3 {
   height: 400px;
-  background-color: #efefef;
+  background-color: #fff;
   border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .item4 {
   height: 400px;
-  background-color: #e4e4e4;
+  background-color: #fff;
   border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .item5 {
   height: 220px;
-  background-color: #e4e4e4;
+  background-color: #fff;
   border-radius: 10px;
   overflow: auto;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  padding-bottom: 10px;
 }
 
 .trans-page {
@@ -475,5 +515,87 @@ br {
 
 #symbol-heading {
   text-align: left;
+  font-weight: bold;
+}
+
+.footer {
+  background-color: #000; 
+  height: 200px;
+  width: cover;
+  position: bottom;
+}
+.hidden {
+  display: none;
+}
+
+.price {
+  font-weight: bold;
+}
+
+.button-link {
+  padding: 10px 20px;
+  background-color: rgb(240, 240, 240);
+  color: #aaa;
+  border-radius: 10px;
+}
+
+.name {
+  text-align: center;
+  font-weight: bold;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+h5 {
+  padding: 10px;
+}
+
+.widget-container {
+  background-color: #fff;
+  padding: 50px;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: perspective(1000px) scale(1.1);
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+br {
+
+  background-color: #000;
+  padding: 10px;
+}
+
+.heading {
+  padding-top: 15px;
+  font-weight: bold;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Style for the table rows */
+table tr {
+  background-color: white;
+}
+
+/* Style for the table rows except the last one */
+table tr:not(:last-child) {
+  border-bottom: 2px solid #ccc; /* Horizontal line */
+}
+
+/* Style for the table cells */
+table td {
+  padding: 10px;
+}
+
+/* Optional: Style for header row */
+table th {
+  background-color: #f2f2f2;
+  padding: 10px;
   font-weight: bold;
 }

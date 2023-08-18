@@ -1,37 +1,54 @@
 {% extends "layout.html" %}
 {% block main %}
 <div class="grid-container">
-    <div class="item1">
-                <li class="nav-item dropdown">
-                  <a>
-                    <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
-                      class="rounded-circle"
-                      height="32"
-                      alt="Portrait of a Woman"
-                      loading="lazy"
-                    />
-                  </a>
-                </li>
+    <div class="item1 container">
+      <h5 class="heading" id="balance" >Balance: ${{ balance }}</h5>
+      <h6 class="heading">Demo Account</h6>
+      <h5 class="heading" id="equity" data-balance="{{ balance }}"></h5>
         </div>
         <div class="item2">
-          <img id="mylogo" class="image-transition" src="/static/logo.png" alt="My logo" height="50" width="130">
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" id="home" href="/logout">Logout</a>
+          <h2 class="name">{{ first_name }} {{ last_name }}</h2>
+          <h3 class="name">@{{ name }}</h3>
+          <li class="nav-item container">
+            <a class="nav-link button-link" aria-current="page" id="home" href="/deposit">Deposit</a>
+            <a class="nav-link button-link" aria-current="page" id="home" href="/withdraw">Withdraw</a>
+            <a class="nav-link button-link" aria-current="page" id="home" href="/logout">Logout</a>
           </li>
         </div>
         <div class="item3 chart">
-
+          <h5 class="name">Watchlist</h5>
         </div>
         <div class="item4">
-          <h3>Main</h3>
-          <div class="container">
+          <h5 class="name">Trades</h5>
+          <table class="table-container">
+            <thead>
+                <tr>
+                    <td>Symbol</td>
+                    <td>Name</td>
+                    <td>Coins</td>
+                    <td>Transaction</td>
+                    <td>Profit/loss</td>
+                </tr>
+            </thead>
+            <br>
+            <tbody id="history-body">
+                {% for row in transactions %}
+                <tr>
+                    <td>{{ row['symbol'] }}</td>
+                    <td>{{ row['name'] }}</td>
+                    <td>{{ row['coins'] }}</td>
+                    <td>{{ row['order_type'] }}</td>
+                    <td class="gain" data-price="{{row['price']}}" id="{{row['name']}}" data-coins="{{ row['coins'] }}" data-symbol="{{ row['name'] }}">$.....</td>
 
-        </div>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
         </div>
         <div class="item5">
-          <h3><strong>History</strong></h3>
+          <h5 class="name">History</h5>
           <table class="table-container">
             <thead>
                 <tr>

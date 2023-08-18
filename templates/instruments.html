@@ -13,10 +13,10 @@
             <tbody>
                 {% for coin in coins %}
                     <tr>
-                        <td class="hidden-cell">{{ coin['symbol'] }}</td>
+                        <td class="hidden">{{ coin['symbol'] }}</td>
                         <td><img class="icon" src="{{ coin['image']}}"><a class="crypto-name nav-item">{{coin['name']}}</a></td>
                         <td><a href="/chart?symbol={{ coin['symbol']}}&name={{ coin['name']}}" name="BTC" class="nav-item">View Chart</a></td>
-                        <td class="{{ coin['symbol'] }}-price" id="{{coin['name']}}"></td>
+                        <td class="price" id="{{coin['name']}}"></td>
                         <td><a href="/trade?symbol={{ coin['symbol']}}&name={{ coin['name']}}&current={{ coin['current_price'] }}" class="nav-item">Trade</a></td>
                     </tr>
                     {% endfor %}

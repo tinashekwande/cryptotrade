@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block main %}
+    <div class="container form-page">
+        <h5 class="name">Your Current Balance is ${{ balance }}</h5>
+        <form class="container" action="/deposit" method="post">
+            <input class="input" type="text" name="amount" placeholder="Enter Amount">
+                <li class="error">{{ error1 }}</li>
+            <button type="submit">Deposit</button>
+                <li class="error">{{ error3 }}</li>
+
+        </form>
+    </div>
+{% endblock %}
+

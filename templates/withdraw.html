@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block main %}
+    <div class="container form-page">
+        <h5 class="name">Your Current Balance is {{ balance }}</h5>
+        <form class="container" action="/withdraw" method="post">
+            <input class="input" type="text" name="withdraw" placeholder="Enter Amount">
+                <li class="error">{{ error1 }}</li>
+            <button type="submit">Withdraw</button>
+                <li class="error">{{ error3 }}</li>
+
+        </form>
+    </div>
+{% endblock %}

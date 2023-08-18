@@ -33,6 +33,33 @@ function updateCryptocurrencyPrices() {
 
 }
 
+// function for updating live price data for cryptos
+function livePrice(symbol, id) {
+
+  socket = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}usdt@aggTrade`);
+
+  socket.addEventListener('open', () => {
+    console.log('Websocket connection for live price established');
+  });
+
+  socket.addEventListener('message', (event) => {
+    var message = JSON.parse(event.data);
+    var data = parseFloat(message.p);
+    data = data.toFixed(3);
+    console.log(data);
+    prevPrice = localStorage.getItem('price');
+    if (prevPrice > data){
+      document.getElementById(id).style.color =  'red';
+    }
+    else{
+      document.getElementById(id).style.color = 'blue';
+    }
+
+    document.getElementById(id).innerHTML = data;
+    localStorage.setItem('price', data);
+  });
+
+}
 
 
 
@@ -50,34 +77,91 @@ function passCryptoValues() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  passCryptoValues();
+      passCryptoValues();
 
-  var symbol = document.getElementById("hidden-symbol2").value;
+      var symbol = document.getElementById("hidden-symbol2").value;
 
 
-  var socket = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}usdt@aggTrade`);
+      var socket = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}usdt@aggTrade`);
 
-  socket.addEventListener("open", () => {
-    console.log(symbol);
-    console.log("Websocket2 Established");
-  });
+      socket.addEventListener("open", () => {
+        console.log(symbol);
+        console.log("Websocket2 Established");
+      });
 
-  socket.addEventListener("message", (event) => {
-    var message = JSON.parse(event.data);
-    console.log(message.p);
-    data = parseFloat(message.p);
-    document.getElementById("price").value = data.toFixed(5);
-  });
+      socket.addEventListener("message", (event) => {
+        var message = JSON.parse(event.data);
+        console.log(message.p);
+        data = parseFloat(message.p);
+        document.getElementById("price").value = data.toFixed(5);
+      });
 
   });
 
 
   document.addEventListener("DOMContentLoaded", function() {
-
     // Call the function to update cryptocurrency prices
     updateCryptocurrencyPrices();
 
+    // set live price updates for cryptocurrencies 
+      var priceCells = document.getElementsByClassName('price');
+      var symbols = document.getElementsByClassName('hidden');
+
+
+      for (let i = 0; i < symbols.length; i++){
+        id  = priceCells[i].id;
+        symbol = symbols[i].innerHTML;
+        livePrice(symbol, id);
+      }
+
   });
+
+  document.addEventListener("DOMContentLoaded", function() {
+      var totalProfit = 0;
+      var balance = parseFloat(document.getElementById("equity").getAttribute("data-balance"));
+      document.querySelectorAll(".gain").forEach((gain) => {
+        var symbol = gain.getAttribute("data-symbol");
+        var price = parseFloat(gain.getAttribute("data-price"));
+        var coins = parseFloat(gain.getAttribute("data-coins"));
+      
+        var socket = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}usdt@aggTrade`);
+      
+        socket.addEventListener("open", () => {
+          console.log(symbol);
+          console.log("Websocket Established");
+        });
+      
+        socket.addEventListener("message", (event) => {
+          var message = JSON.parse(event.data);
+          console.log(message.p);
+          var data = parseFloat(message.p);
+          var prevPrice = parseFloat(localStorage.getItem('gain'));
+        
+          if (isNaN(prevPrice)) {
+            prevPrice = 0;
+          }
+        
+          var profit = (data * coins) - (price * coins);
+          var equity = balance + profit;
+        
+          if (profit > 0) {
+            gain.style.color = 'blue';
+          } else if (profit < 0) {
+            gain.style.color = 'red';
+          }
+        
+          gain.textContent = profit.toFixed(4);
+          document.getElementById('equity').innerHTML = "Equity: $" + equity.toFixed(4);
+
+        
+          localStorage.setItem("gain", profit.toString());
+          totalProfit = totalProfit + profit;
+        });
+        
+      });
+      
+  });
+
 
 
 
@@ -93,9 +177,10 @@ document.addEventListener('DOMContentLoaded', function() {
       search.style.display = 'none';
   });
 
+  var chartContainer = document.getElementById('chart');
   var chart = LightweightCharts.createChart(document.getElementById('chart'), {
-    width: 1338,
-    height: 720,
+    width: chartContainer.offsetWidth,
+    height: chartContainer.offsetHeight,
     layout: {
       height: '100%',
       width: '100%',
@@ -114,6 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
     },
 
   });
+
 
   var candleSeries = chart.addCandlestickSeries({
     upColor: 'rgba(255, 144, 0, 1)',
