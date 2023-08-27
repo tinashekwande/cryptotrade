@@ -76,6 +76,21 @@ function passCryptoValues() {
   document.getElementById("hidden-symbol2").value = symbol2.toUpperCase();
 }
 
+//function for dynamically execute a route without having to reload the whole html document
+function updateDynamicContent(route, id) {
+  fetch(route, {
+    method: "POST"
+  })
+    .then(response => response.text())
+    .then(data => {
+      const dynamicSection = document.getElementById(id);
+      dynamicSection.innerHTML = data;
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function() {
       passCryptoValues();
 
@@ -123,6 +138,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var symbol = gain.getAttribute("data-symbol");
         var price = parseFloat(gain.getAttribute("data-price"));
         var coins = parseFloat(gain.getAttribute("data-coins"));
+        var gainValue = document.getElementById(symbol);
       
         var socket = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}usdt@aggTrade`);
       
@@ -151,13 +167,28 @@ document.addEventListener("DOMContentLoaded", function() {
           }
         
           gain.textContent = profit.toFixed(4);
+          gainValue.vaue = profit.toFixed(4);
           document.getElementById('equity').innerHTML = "Equity: $" + equity.toFixed(4);
-
-        
-          localStorage.setItem("gain", profit.toString());
+          document.getElementById(symbol).value = equity.toFixed(4);
           totalProfit = totalProfit + profit;
         });
         
+        document.getElementById("clear-history").addEventListener("click", () => {
+          updateDynamicContent("/clear_history", "table-history")
+        });
+      });
+
+      document.querySelectorAll(".side-links").forEach(sideLink => {
+        sideLink.style.backgroundColor = "white";
+        sideLink.style.color = "#333";
+      
+        sideLink.addEventListener("mouseover", () => {
+          sideLink.style.backgroundColor = "#eee";
+        });
+      
+        sideLink.addEventListener("mouseout", () => {
+          sideLink.style.backgroundColor = "white";
+        });
       });
       
   });

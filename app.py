@@ -229,7 +229,9 @@ def dashboard():
         balance = float(account[0]["balance"])
         formated_balance = "{:.2f}".format(balance)
         name = username[0]
-        return render_template("dashboard.html", dashboard=dash, history=history, name=name, first_name=first_name, last_name=last_name, balance=formated_balance, transactions=transactions)
+        response = requests.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en")
+        data = response.json()
+        return render_template("dashboard.html", dashboard=dash, history=history, name=name, first_name=first_name, last_name=last_name, balance=formated_balance, transactions=transactions, coins=data)
 
 
 #This route has all the logic that handles buying a crypto pair
@@ -266,25 +268,15 @@ def buy():
             date = datetime.now().date().strftime("%Y-%m-%D")
             time = datetime.now().time().strftime("%H:%M:%S")
 
-
-            #updating the transaction information into the database, thats if the symbol already exists in the database
-            if symbol in symbols:
-                db.execute("UPDATE transactions SET coins = coins + :coins", coins=coins)
-                db.execute("UPDATE accounts SET balance = balance - :cost", cost=cost)
-
-            #Inserting the transaction if the symbol is not already in the database
-            else:
-                db.execute("INSERT INTO transactions (name, symbol, price, coins, cost, user_id, order_type) values(:name, :symbol, :price, :coins, :cost, :user_id, :order_type)", name=name, symbol=symbol, price=price, coins=coins, cost=cost, user_id=user_id, order_type=order_type)
+            
+            
+            db.execute("INSERT INTO transactions (name, symbol, price, coins, cost, user_id, order_type, date, time) values(:name, :symbol, :price, :coins, :cost, :user_id, :order_type, :date, :time)", name=name, symbol=symbol, price=price, coins=coins, cost=cost, user_id=user_id, order_type=order_type, date=date, time=time)
 
 
-            balance = balance[0] - cost
-            gain = 0
-            db.execute("INSERT INTO history (name, symbol, price, coins, cost, balance, user_id, date, time) values(:name, :symbol, :price, :coins, :cost, :balance, :user_id, :date, :time)", name=name, symbol=symbol, price=price, coins=coins, cost=cost, balance=balance, user_id=user_id, date=date, time=time)
-
-            return redirect(url_for("dashboard", gain=gain))
+            return redirect(url_for("dashboard"))
 
         else:
-            return render_template("buy.html")
+            return redirect(url_for("trade"))
         
 
 
@@ -333,20 +325,50 @@ def sell():
                 coins = [row['coins'] for row in db.execute("SELECT coins FROM transactions WHERE symbol = :symbol AND user_id = :user_id", symbol=symbol, user_id=user_id)]
                 if coins <= 0:
                     db.execute("DELETE FROM transactions WHERE symbol = :symbol AND user_id = :user_id", symbol=symbol, user_id=user_id)
+            
 
             #Inserting the transaction if the symbol is not already in the database
             else:
-                db.execute("INSERT INTO transactions (name, symbol, price, coins, cost, user_id) values(:name, :symbol, :price, :coins, :cost, :user_id)", name=name, symbol=symbol, price=price, coins=coins, cost=cost, user_id=user_id)
+                db.execute("INSERT INTO transactions (name, symbol, price, coins, cost, user_id, order_type) values(:name, :symbol, :price, :coins, :cost, :user_id, order_type)", name=name, symbol=symbol, price=price, coins=coins, cost=cost, user_id=user_id, order_type=order_type)
+                balance = balance[0] - cost
+                db.execute("INSERT INTO history (name, symbol, price, coins, cost, balance, user_id, date, time, order_type) values(:name, :symbol, :price, :coins, :cost, :balance, :user_id, :date, :time, :order_type)", name=name, symbol=symbol, price=price, coins=coins, cost=cost, balance=balance, user_id=user_id, date=date, time=time, order_type=order_type)
 
 
-            balance = balance[0] - cost
-            db.execute("INSERT INTO history (name, symbol, price, coins, cost, balance, user_id, date, time) values(:name, :symbol, :price, :coins, :cost, :balance, :user_id, :date, :time)", name=name, symbol=symbol, price=price, coins=coins, cost=cost, balance=balance, user_id=user_id, date=date, time=time)
 
-            return redirect(f"/chart?name={name}&symbol={symbol}")
+            
+            return redirect(url_for("dashboard"))
 
         else:
-            return render_template("buy.html")
+            symbol = request.form.get("symbol")
+            name = request.form.get("name")
+            return redirect(f"/trade?symbol={symbol}&name={name}")
 
+@app.route("/exit_position", methods = ["POST"])
+def exit_position():
+    with engine.connect() as db:
+        if request.method == "POST":
+            
+            name = request.form.get("name")
+            price = request.form.get("price")
+            coins = request.form.get("coins")
+            order_type = request.form.get("order_type")
+            order_date = request.form.get("date")
+            order_time = request.form.get("time")
+            date = datetime.now().date().strftime("%Y-%m-%D")
+            time = datetime.now().time().strftime("%H:%M:%S")
+
+            equity = request.form.get("equity")
+            print(f"recieved message{equity}")
+            
+            symbol = request.form.get("symbol")
+            user_id = session.get("user_id")
+
+            db.execute("DELETE FROM transactions WHERE name = :symbol AND user_id = :user_id AND date = :date AND time = :time", symbol=symbol, user_id=user_id, date=order_date, time=order_time)
+            db.execute("UPDATE accounts SET balance = :equity", equity=equity)
+            db.execute("INSERT INTO history (name, symbol, price, coins, balance, user_id, date, time, order_type) values(:name, :symbol, :price, :coins, :balance, :user_id, :date, :time, :order_type)", name=name, symbol=symbol, price=price, coins=coins, balance=equity, user_id=user_id, date=date, time=time, order_type=order_type)
+
+
+            return redirect(url_for("dashboard"))
 
 
 @app.route("/trade")
@@ -386,6 +408,17 @@ def withdraw():
             user_id = session.get("user_id")
             balance = db.execute("SELECT balance FROM accounts WHERE user_id = :user_id", user_id=user_id).fetchone()
             return render_template("withdraw.html", balance=balance[0])
+
+@app.route("/clear_history", methods = ["POST"])
+def clear_history():
+    if request.method == "POST":
+        with engine.connect() as db:
+            user_id = session.get("user_id")
+            db.execute("DELETE FROM history WHERE user_id = :user_id", user_id=user_id)
+
+            return redirect(url_for("dashboard"))
+
+    
 
 
 

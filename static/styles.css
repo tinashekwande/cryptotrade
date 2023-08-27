@@ -50,7 +50,7 @@ h1 {
 
 @media (max-width: 768px) {
   #home-search {
-    width: 300px;
+    width: auto;
   }
 }
 
@@ -111,16 +111,22 @@ nav .navbar-brand .green
 .navbar a{
   margin-right: 90px;
 }
+
+.nav_link{
+  text-decoration: none;
+  color: #00f;
+}
 .navbar {
   background-color: transparent;
 }
 .nav-item {
   font-weight: bold;
   font-size: 11pt;
-  padding: 10px;
-  color: black;
+  padding-top: 25px;
+  color: blue;
   text-decoration: none;
 }
+
 
 .card {
   height: auto;
@@ -364,8 +370,8 @@ tbody {
 .search-items {
   padding-top: 20px;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   background-color: transparent;
 }
 
@@ -393,7 +399,7 @@ tbody {
   gap: 20px;
   background-color: #fff;
   position: relative;
-  height: 100%;
+  height: auto;
 }
 
 
@@ -421,10 +427,11 @@ tbody {
 
 }
 .item3 {
-  height: 400px;
+  height: 400px;;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  overflow: auto;
 }
 
 .item4 {
@@ -438,9 +445,41 @@ tbody {
   height: 220px;
   background-color: #fff;
   border-radius: 10px;
-  overflow: auto;
+  overflow: scroll;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   padding-bottom: 10px;
+}
+
+@media (max-width: 800px){
+  .grid-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .item1 {
+    width: auto;
+  }
+  .item2 {
+    width: auto;
+    height: 300px;
+  }
+  .item3 {
+    height: 500px;
+    
+  }
+  .item4 {
+    width: auto;
+    height: auto;
+  }
+  .item5 {
+    width: auto;
+    height: 400px;
+    overflow: scroll;
+
+  }
+  .symbol-col {
+    display: none;
+  }
+
 }
 
 .trans-page {
@@ -598,4 +637,24 @@ table th {
   background-color: #f2f2f2;
   padding: 10px;
   font-weight: bold;
+}
+
+.bi-three-dots-vertical {
+  width: 10px;
+  height: 20px;
+  padding-left: 1px;
+}
+.dropdown {
+  width: 20px;
+  
+}
+
+.dropdown-menu{
+  width: 20px;
+  border: none;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+.drop-down-button  {
+  width: 20px;
+  font-size: 5pt;
 }
